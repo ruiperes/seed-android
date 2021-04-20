@@ -1,0 +1,2 @@
+include ':framework'
+rootProject.name='seed'
