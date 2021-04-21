@@ -3,16 +3,13 @@ package io.ruiperes.seed.view.cropwindow.handle
 import android.graphics.RectF
 import io.ruiperes.seed.view.cropwindow.edge.Edge
 
-/**
- * HandleHelper class to handle corner Handles (i.e. top-left, top-right, bottom-left, and
- * bottom-right handles).
- */
-internal class CornerHandleHelper  // Constructor /////////////////////////////////////////////////////////////////////////////////
+
+internal class CornerHandleHelper
     (
     horizontalEdge: Edge?,
     verticalEdge: Edge?
 ) : HandleHelper(horizontalEdge, verticalEdge) {
-    // HandleHelper Methods ////////////////////////////////////////////////////////////////////////
+
     public override fun updateCropWindow(
         x: Float,
         y: Float,

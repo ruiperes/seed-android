@@ -19,59 +19,56 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.recyclerview.widget.RecyclerView
 import io.ruiperes.seed.R
 
-/**
- * 默认缩放比只能为1
- * 缩放动画时长暂时没有根据缩放比例改动
- */
+
 @SuppressLint("ClickableViewAccessibility")
 class ZoomRecyclerView : RecyclerView {
-    // touch detector
+
     var mScaleDetector: ScaleGestureDetector? = null
     var mGestureDetector: GestureDetectorCompat? = null
 
-    // draw param
-    var mViewWidth // 宽度
+
+    var mViewWidth
         = 0f
-    var mViewHeight // 高度
+    var mViewHeight
         = 0f
-    var mTranX // x偏移量
+    var mTranX
         = 0f
-    var mTranY // y偏移量
+    var mTranY
         = 0f
-    var mScaleFactor // 缩放系数
+    var mScaleFactor
         = 0f
 
-    // touch param
-    var mActivePointerId = MotionEvent.INVALID_POINTER_ID // 有效的手指id
-    var mLastTouchX // 上一次触摸位置 X
+
+    var mActivePointerId = MotionEvent.INVALID_POINTER_ID
+    var mLastTouchX
         = 0f
-    var mLastTouchY // 上一次触摸位置 Y
+    var mLastTouchY
         = 0f
 
-    // control param
-    var isScaling = false // 是否正在缩放
-    var isEnableScale = false // 是否支持缩放
 
-    // zoom param
-    var mScaleAnimator //缩放动画
+    var isScaling = false
+    var isEnableScale = false
+
+
+    var mScaleAnimator
         : ValueAnimator? = null
-    var mScaleCenterX // 缩放中心 X
+    var mScaleCenterX
         = 0f
-    var mScaleCenterY // 缩放中心 Y
+    var mScaleCenterY
         = 0f
-    var mMaxTranX // 当前缩放系数下最大的X偏移量
+    var mMaxTranX
         = 0f
-    var mMaxTranY // 当前缩放系数下最大的Y偏移量
+    var mMaxTranY
         = 0f
 
-    // config param
-    var mMaxScaleFactor // 最大缩放系数
+
+    var mMaxScaleFactor
         = 0f
-    var mMinScaleFactor // 最小缩放系数
+    var mMinScaleFactor
         = 0f
-    var mDefaultScaleFactor // 默认缩放系数 双击缩小后的缩放系数 暂不支持小于1
+    var mDefaultScaleFactor
         = 0f
-    var mScaleDuration // 缩放时间 ms
+    var mScaleDuration
         = 0
 
     constructor(context: Context?) : super(context!!) {
@@ -103,7 +100,7 @@ class ZoomRecyclerView : RecyclerView {
             )
             a.recycle()
         } else {
-            //init param with default
+
             mMaxScaleFactor = DEFAULT_MAX_SCALE_FACTOR
             mMinScaleFactor = DEFAULT_MIN_SCALE_FACTOR
             mDefaultScaleFactor = DEFAULT_SCALE_FACTOR
@@ -134,41 +131,41 @@ class ZoomRecyclerView : RecyclerView {
                 val pointerIndex = ev.actionIndex
                 val x = ev.getX(pointerIndex)
                 val y = ev.getY(pointerIndex)
-                // Remember where we started (for dragging)
+
                 mLastTouchX = x
                 mLastTouchY = y
-                // Save the ID of this pointer (for dragging)
+
                 mActivePointerId = ev.getPointerId(0)
             }
             MotionEvent.ACTION_MOVE -> {
                 try {
-                    // Find the index of the active pointer and fetch its position
+
                     val pointerIndex = ev.findPointerIndex(mActivePointerId)
                     val x = ev.getX(pointerIndex)
                     val y = ev.getY(pointerIndex)
-                    if (!isScaling && mScaleFactor > 1) { // 缩放时不做处理
-                        // Calculate the distance moved
+                    if (!isScaling && mScaleFactor > 1) {
+
                         val dx = x - mLastTouchX
                         val dy = y - mLastTouchY
                         setTranslateXY(mTranX + dx, mTranY + dy)
                         correctTranslateXY()
                     }
                     invalidate()
-                    // Remember this touch position for the next move event
+
                     mLastTouchX = x
                     mLastTouchY = y
                 } catch (e: Exception) {
                     val x = ev.x
                     val y = ev.y
-                    if (!isScaling && mScaleFactor > 1 && mLastTouchX != INVALID_TOUCH_POSITION) { // 缩放时不做处理
-                        // Calculate the distance moved
+                    if (!isScaling && mScaleFactor > 1 && mLastTouchX != INVALID_TOUCH_POSITION) {
+
                         val dx = x - mLastTouchX
                         val dy = y - mLastTouchY
                         setTranslateXY(mTranX + dx, mTranY + dy)
                         correctTranslateXY()
                     }
                     invalidate()
-                    // Remember this touch position for the next move event
+
                     mLastTouchX = x
                     mLastTouchY = y
                 }
@@ -182,8 +179,8 @@ class ZoomRecyclerView : RecyclerView {
                 val pointerIndex = ev.actionIndex
                 val pointerId = ev.getPointerId(pointerIndex)
                 if (pointerId == mActivePointerId) {
-                    // This was our active pointer going up. Choose a new
-                    // active pointer and adjust accordingly.
+
+
                     val newPointerIndex = if (pointerIndex == 0) 1 else 0
                     mLastTouchX = ev.getX(newPointerIndex)
                     mLastTouchY = ev.getY(newPointerIndex)
@@ -200,7 +197,7 @@ class ZoomRecyclerView : RecyclerView {
         canvas.translate(mTranX, mTranY)
         canvas.scale(mScaleFactor, mScaleFactor)
 
-        // 所有子view都会缩放和平移
+
         super.dispatchDraw(canvas)
         canvas.restore()
     }
@@ -210,7 +207,7 @@ class ZoomRecyclerView : RecyclerView {
         mTranY = tranY
     }
 
-    //当scale 大于 1 时修正action move的位置
+
     private fun correctTranslateXY() {
         val correctXY = correctTranslateXY(mTranX, mTranY)
         mTranX = correctXY[0]
@@ -244,7 +241,7 @@ class ZoomRecyclerView : RecyclerView {
             return
         }
 
-        //set Value
+
         mMaxTranX = mViewWidth - mViewWidth * endVal
         mMaxTranY = mViewHeight - mViewHeight * endVal
         val startTranX = mTranX
@@ -268,7 +265,7 @@ class ZoomRecyclerView : RecyclerView {
     private fun newZoomAnimation() {
         mScaleAnimator = ValueAnimator()
         mScaleAnimator!!.interpolator = DecelerateInterpolator()
-        mScaleAnimator!!.addUpdateListener { animation -> //update scaleFactor & tranX & tranY
+        mScaleAnimator!!.addUpdateListener { animation ->
             mScaleFactor = animation.getAnimatedValue(PROPERTY_SCALE) as Float
             setTranslateXY(
                 animation.getAnimatedValue(PROPERTY_TRANX) as Float,
@@ -277,7 +274,7 @@ class ZoomRecyclerView : RecyclerView {
             invalidate()
         }
 
-        // set listener to update scale flag
+
         mScaleAnimator!!.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 isScaling = true
@@ -293,7 +290,7 @@ class ZoomRecyclerView : RecyclerView {
         })
     }
 
-    // handle scale event
+
     private inner class ScaleListener : OnScaleGestureListener {
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
             return true
@@ -302,7 +299,7 @@ class ZoomRecyclerView : RecyclerView {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             val mLastScale = mScaleFactor
             mScaleFactor *= detector.scaleFactor
-            //修正scaleFactor
+
             mScaleFactor = Math.max(mMinScaleFactor, Math.min(mScaleFactor, mMaxScaleFactor))
             mMaxTranX = mViewWidth - mViewWidth * mScaleFactor
             mMaxTranY = mViewHeight - mViewHeight * mScaleFactor
@@ -349,7 +346,7 @@ class ZoomRecyclerView : RecyclerView {
     companion object {
         private const val TAG = "999"
 
-        // constant
+
         private const val DEFAULT_SCALE_DURATION = 300
         private const val DEFAULT_SCALE_FACTOR = 1f
         private const val DEFAULT_MAX_SCALE_FACTOR = 2.0f

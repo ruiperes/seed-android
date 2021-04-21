@@ -3,11 +3,9 @@ package io.ruiperes.seed.view.cropwindow.handle
 import android.graphics.RectF
 import io.ruiperes.seed.view.cropwindow.edge.Edge
 
-/**
- * Enum representing a pressable, draggable Handle on the crop window.
- */
-enum class Handle // Constructors ////////////////////////////////////////////////////////////////////////////////
-    (// Member Variables ////////////////////////////////////////////////////////////////////////////
+
+enum class Handle
+    (
     private val mHelper: HandleHelper
 ) {
     TOP_LEFT(
@@ -42,7 +40,7 @@ enum class Handle // Constructors //////////////////////////////////////////////
     ),
     CENTER(CenterHandleHelper());
 
-    // Public Methods //////////////////////////////////////////////////////////
+
     fun updateCropWindow(
         x: Float,
         y: Float,

@@ -1,8 +1,6 @@
 package io.ruiperes.seed.core.exceptions
 
-/**
- * Exceptions should only be used until Use Cases
- */
+
 sealed class BaseException(val code: ExceptionCode) : Exception() {
     object IoRemoteException : BaseException(ExceptionCode.Network)
     object IoLocalException : BaseException(ExceptionCode.Local)

@@ -1,11 +1,9 @@
 package io.ruiperes.seed.view.cropwindow.edge
 
-/**
- * Simple class to hold a pair of Edges.
- */
-class EdgePair // Constructor /////////////////////////////////////////////////////////////
+
+class EdgePair
     (
-    // Member Variables ////////////////////////////////////////////////////////
+
     var primary: Edge?,
     var secondary: Edge?
 )

@@ -18,11 +18,7 @@ import java.util.concurrent.ThreadLocalRandom
 val EditText.string
     get() = this.text.toString()
 
-/**
- * Extension function on any list that will return a list of unique random picks
- * from the list. If the specified number of elements you want is larger than the
- * number of elements in the list it returns null
- */
+
 fun <E> List<E>.getRandomElements(numberOfElements: Int): List<E>? {
     if (numberOfElements > this.size) {
         return null
@@ -47,9 +43,9 @@ fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, length).show()
 }
 
-//fun AppCompatActivity.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
-//    this.applicationContext.toast(message, length)
-//}
+
+
+
 
 fun Fragment.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
     this.context?.toast(message, length)

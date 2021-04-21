@@ -3,12 +3,10 @@ package io.ruiperes.seed.view.cropwindow.handle
 import android.graphics.RectF
 import io.ruiperes.seed.view.cropwindow.edge.Edge
 
-/**
- * HandleHelper class to handle the center handle.
- */
-internal class CenterHandleHelper  // Constructor /////////////////////////////////////////////////////////////////////////////////
+
+internal class CenterHandleHelper
     : HandleHelper(null, null) {
-    // HandleHelper Methods ////////////////////////////////////////////////////////////////////////
+
     public override fun updateCropWindow(
         x: Float,
         y: Float,
@@ -28,13 +26,13 @@ internal class CenterHandleHelper  // Constructor //////////////////////////////
         val offsetX = x - currentCenterX
         val offsetY = y - currentCenterY
 
-        // Adjust the crop window.
+
         Edge.LEFT.offset(offsetX)
         Edge.TOP.offset(offsetY)
         Edge.RIGHT.offset(offsetX)
         Edge.BOTTOM.offset(offsetY)
 
-        // Check if we have gone out of bounds on the sides, and fix.
+
         if (Edge.LEFT.isOutsideMargin(
                 imageRect,
                 snapRadius
@@ -53,7 +51,7 @@ internal class CenterHandleHelper  // Constructor //////////////////////////////
             Edge.LEFT.offset(offset)
         }
 
-        // Check if we have gone out of bounds on the top or bottom, and fix.
+
         if (Edge.TOP.isOutsideMargin(
                 imageRect,
                 snapRadius

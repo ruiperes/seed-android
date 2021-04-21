@@ -11,12 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorCompat
 
 
-/**
- * ContentLoadingProgressBar implements a ProgressBar that waits a minimum time to be
- * dismissed before showing. Once visible, the progress bar will be visible for
- * a minimum amount of time to avoid "flashes" in the UI when an event could take
- * a largely variable time to complete (from none, to a user perceivable amount)
- */
+
 class DelayedProgressBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs, 0) {
     private var mStartTime: Long = -1
     private var mPostedHide = false
@@ -74,11 +69,7 @@ class DelayedProgressBar @JvmOverloads constructor(context: Context, attrs: Attr
         mPostedShow = false
     }
 
-    /**
-     * Hide the progress view if it is visible. The progress view will not be
-     * hidden until it has been shown for at least a minimum show time. If the
-     * progress view was not yet visible, cancels showing the progress view.
-     */
+
     @JvmOverloads
     fun hide(animate: Boolean = false, @NonNull endAction: Runnable? = mEmptyEndAction) {
         this.animate = animate
@@ -90,9 +81,9 @@ class DelayedProgressBar @JvmOverloads constructor(context: Context, attrs: Attr
         if (diff >= MIN_SHOW_TIME || mStartTime == -1L) {
             doHide(animate)
         } else {
-            // The progress spinner is shown, but not long enough,
-            // so put a delayed message in to hide it when its been
-            // shown long enough.
+
+
+
             if (!mPostedHide) {
                 postDelayed(mDelayedHide, MIN_SHOW_TIME - diff)
                 mPostedHide = true
@@ -101,9 +92,9 @@ class DelayedProgressBar @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun doHide(animate: Boolean) {
-        // The progress spinner has been shown long enough
-        // OR was not shown yet. If it wasn't shown yet,
-        // it will just never be shown.
+
+
+
         if (animate && mStartTime != -1L) {
             if (animator != null) {
                 animator?.cancel()
@@ -119,15 +110,12 @@ class DelayedProgressBar @JvmOverloads constructor(context: Context, attrs: Attr
         }
     }
 
-    /**
-     * Show the progress view after waiting for a minimum delay. If
-     * during that time, hide() is called, the view is never made visible.
-     */
+
     @JvmOverloads
     fun show(animate: Boolean = false, @NonNull endAction: Runnable? = mEmptyEndAction) {
         this.animate = animate
         showEndAction = endAction
-        // Reset the start time.
+
         mStartTime = -1
         mDismissed = false
         removeCallbacks(mDelayedHide)
@@ -139,7 +127,7 @@ class DelayedProgressBar @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     companion object {
-        private const val MIN_SHOW_TIME = 100 // ms
-        private const val MIN_DELAY = 100 // ms
+        private const val MIN_SHOW_TIME = 100
+        private const val MIN_DELAY = 100
     }
 }

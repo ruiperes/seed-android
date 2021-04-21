@@ -1,9 +1,7 @@
 package io.ruiperes.seed.view.cropwindow.util
 
 object MathUtil {
-    /**
-     * Calculates the distance between two points (x1, y1) and (x2, y2).
-     */
+
     fun calculateDistance(
         x1: Float,
         y1: Float,
